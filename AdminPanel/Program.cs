@@ -1,7 +1,21 @@
+using AdminPanel.Options;
+using AdminPanel.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+
+// Подключения сервиса и его настроек
+builder.Services.AddScoped<IRunnerService, RunnerService>();
+builder.Services.Configure<RunnerOption>(options =>
+{
+    options.BaseUrl = builder.Configuration["Runner:BaseUrls:Host"];
+    options.FinishedUrl = builder.Configuration["Runner:EndPoints:Finished"];
+});
+//////////////////////////////////////////////////////
+
 
 var app = builder.Build();
 

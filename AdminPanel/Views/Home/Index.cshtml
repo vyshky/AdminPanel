@@ -1,4 +1,5 @@
-﻿@{
+﻿@model FinishedTestsModel
+@{
 	ViewData["Title"] = "HomePage";
 }
 
@@ -17,5 +18,54 @@
 		<a href="#" class="active">История Релизов</a>
 		<a href="#">Логи Моков</a>
 	</div>
-	@*Content TODO:: сгенерировать из БД или еще откуда-то*@
+
+	@*<История Тестов>*@
+	<table class="table table-hover table-dark">
+		<thead>
+			<tr>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col" style="text-align:center">
+					<button class="btn btn-outline-secondary" type="button" id="clear">
+						🗑
+					</button>
+				</th>
+				<th scope="col">Название Теста</th>
+				<th scope="col">Время запуска теста</th>
+				<th scope="col">Последнее действие</th>
+				<th scope="col">Длительность</th>
+				<th scope="col">Название скрипта</th>
+				<th scope="col">Профиль нагрузки</th>
+				<th scope="col">Результат</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var test in Model.Tests)
+			{
+				<tr>
+					<th scope="row">
+						@if (@test.Status == "FINISHED")
+						{
+							<span>✔</span>
+						}
+					</th>
+					<td>
+						<button class="btn btn-outline-secondary" type="button" id="clear">
+							🗑
+						</button>
+					</td>
+					<td>@test.TestName</td>
+					<td>@test.StartTime</td>
+					<td>@test.LastStep</td>
+					<td>@test.PlanDuration</td>
+					<td>@test.ScriptName</td>
+					<td>@test.ProfileName</td>
+					<td><a class="btn btn-primary btn-sm" href="@test.Links[0].Url.Insert(6,"/")">@test.Links[0].Name</a></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	@*</История Тестов>*@
+
 </div>
+

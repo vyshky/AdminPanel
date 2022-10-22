@@ -1,4 +1,5 @@
 ﻿using AdminPanel.Models;
+using AdminPanel.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,17 +8,19 @@ namespace AdminPanel.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRunnerService _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRunnerService service)
         {
             _logger = logger;
+            _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var view = await _service.GetFinishedTests();            
+            return View(view);
         }
-
         public IActionResult Privacy()
         {
             return View();
